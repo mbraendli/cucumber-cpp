@@ -34,12 +34,12 @@ It might work with earlier versions of the libraries, but it was not tested with
 See the [CI scripts](.github/workflows/run-all.yml) for details about dependency installation.
 
 Cucumber-Cpp uses the wire protocol at the moment, so you will need
-Cucumber-Ruby installed and available on the path. It is also needed
-to run the functional test suite.
+Cucumber-Ruby and its cucumber-wire plugin installed and available on
+the path. They are also needed to run the functional test suite.
 
-Please mind that Cucumber-Cpp is not compatible with Cucumber-Ruby 3.x
-due to a [bug in its wire protocol](https://github.com/cucumber/cucumber-ruby/issues/1183)
-implementation.
+Cucumber-Cpp is tested with Cucumber-Ruby 7.1 and 10. Later versions
+are not supported yet, because there is no cucumber-wire release for
+them. Cucumber-Ruby 10 needs Ruby 3.1 or later.
 
 To install the Ruby prerequisites:
 
@@ -47,6 +47,10 @@ To install the Ruby prerequisites:
 gem install bundler // For windows: gem install bundle
 bundle install
 ```
+
+This installs Cucumber-Ruby 7.1. To use Cucumber-Ruby 10 instead, set
+the environment variable `CUCUMBER_VERSION=10` before running
+`bundle install` and keep it set when running `bundle exec`.
 
 ### Windows vs. Linux
 
@@ -92,7 +96,8 @@ Running the Calc example on Windows (NMake):
 
 ```
 start build\examples\Calc\BoostCalculatorSteps.exe
-cucumber examples\Calc
+cd examples\Calc
+cucumber
 ```
 
 ## The way it works
@@ -131,8 +136,14 @@ host: localhost
 port: 3902
 ```
 
+Cucumber-Ruby 8 and later ignore the *cucumber.wire* file unless the wire protocol plugin is loaded. Create a *wire.rb* file in the *features/support* folder with the following content (Cucumber-Ruby 7.1 works with it as well):
+
+```
+require 'cucumber/wire'
+```
+
 Create your first feature (an example is available [here](examples/Calc/features/addition.feature)).
 
 Then create your step definition runner (an example is available [here](examples/Calc/features/step_definitions/BoostCalculatorSteps.cpp)). In order to compile the step definition runner, make sure to add [cucumber include directory](include/cucumber-cpp) to the include path and link with *libcucumber-cpp.a* and additional testing libraries (boost unit test).
 
-Run the step definition runner in the background and then cucumber, like in the Calc example in the previous section. The step definition runner should exit after the feature is run and cucumber exits.
+Run the step definition runner in the background and then cucumber, like in the Calc example in the previous section. Start cucumber in the folder that contains the *features* folder, otherwise it does not find the *cucumber.wire* file. The step definition runner should exit after the feature is run and cucumber exits.
