@@ -31,7 +31,7 @@ It relies on a few libraries:
 * [TCLAP](https://tclap.sourceforge.net/) 1.2.5 or later.
 
 It might work with earlier versions of the libraries, but it was not tested with them.
-See the [CI scripts](.github/workflows/run-all.yml) for details about dependency installation.
+See the [CI scripts](.github/workflows/run-all.yaml) for details about dependency installation.
 
 Cucumber-Cpp uses the wire protocol at the moment, so you will need
 Cucumber-Ruby and its cucumber-wire plugin installed and available on
@@ -55,7 +55,7 @@ the environment variable `CUCUMBER_VERSION=10` before running
 ### Windows vs. Linux
 
 To get an inspiration on how to set up the dependencies on your specific system (Windows or Linux), you may want to have a look at the
-workflow files [for Windows](.github/workflows/windows-build.yml) and [for Linux](.github/workflows/linux-build.yml).
+workflow files [for Windows](.github/workflows/windows-build.yaml) and [for Linux](.github/workflows/linux-build.yaml).
 
 
 ## Build
